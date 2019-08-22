@@ -1,3 +1,7 @@
+.gbTransparente {
+  background-color: rgba(0,0,0,0)!important;
+}
+
 html,body {
   height: 100%;
 }
@@ -35,7 +39,7 @@ html,body {
   margin-bottom: 1px;
 }
 
-#numPortas {
+#numQuantidade {
   background-color: #642222;
   border-color: #F9DB00;
   font-size: 30px;

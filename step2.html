@@ -11,20 +11,86 @@
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="custom.css">
     <title>Calculadora</title>  
+    <script>
+      $( document ).ready(function() {
+        var valor = 0;
+        $('button').on('click', function () {
+          var target = $(this).closest('[data-id]');
+          var div = $(target);
+          var input = $(div).find("input")[0];
+          var pAntigo = $("#precoAntigo")[0];
+          var pPromo = $("#precoPromocao")[0];
+          //VALORES
+          var preco;
+          switch(target.data('id')) {
+            case 'basculantes':
+              preco = 10000;
+              break;
+            case 'portas':
+              preco = 5050;
+              break;
+            case 'janelas':
+              preco = 5000;
+              break;
+            case 'ambientes':
+              preco = 5000;
+              break;
+            case 'cameras':
+              preco = 10000;
+              break;
+            case 'controles':
+              preco = 1050; 
+              break;
+          }
+          
+          if ($(this).hasClass("add")) {
+            input.value = parseInt(input.value) + 1;
+            valor = valor + preco;
+
+
+          } else {
+            if (parseInt(input.value) > 0) {
+              input.value = parseInt(input.value) - 1;
+              valor = valor - preco;
+            }
+          }
+          pAntigo.innerText = "R$" + formatReal(valor);
+          pPromo.innerText = "R$" + formatReal(valor/2);
+        });
+      
+      });
+
+      function formatReal( int ){
+        var tmp = int+'';
+        tmp = tmp.replace(/([0-9]{2})$/g, ",$1");
+        if( tmp.length > 6 )
+                tmp = tmp.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+
+        return tmp;
+      }
+    </script>
   </head>
   <body class="h-100 mh-100 w-100 mw-100" style="background-color: #642222;">
+    <input type="text" hidden id="hidName">
+    <input type="text" hidden id="hidEmail">
+    <input type="text" hidden id="hidTelefone">
+    <input type="text" hidden id="hidCidade">
+    <input type="text" hidden id="hidImovel">
     <div class="container-fluid h-100">
       <div class="row text-white d-flex">
+
         <div class="col-4 bg-dark align-self-stretch">
-          <img src="img/better_logo.png" width="100px" class="mt-2">
-            <div class="text-danger" style="margin: 15px; margin-top: 50%; ">
-              <h1 class="text-primary font-weight-bold">Olá <span class="text-warning">xxx</span>, </h1>
-              <h5>o valor mensal do seu pacote será:</h5>
-              <span class="text-white">DE: <span class="h4 text-danger"><S>R$145,00</S></span><span style="font-size: 6pt;"> / VALOR INTEGRAL</span ></span><br>
-              <span class="text-white">POR: <span class="h1 text-danger" style="font-size: 38pt">R$72,50</span><span style="font-size: 6pt;">/ VALOR PROMOCIONAL</span ></span><br>
-              <span class="text text-danger text-justify">50% de desconto nos 5 primeiros meses. Após o período promocional o valor da mensalidade passa a ser integral.</span>
-            </div>
+          <div class="text-danger sticky-top" style="margin: 0 15px;">
+            <img src="img/better_logo.png" width="100px" class="mt-2" style="margin-bottom: 50%;">
+            <h1 class="text-warning font-weight-bold">Olá %nome%, </h1>
+            <h5>o valor mensal do seu pacote será:</h5>
+            <span class="text-white">DE: <S class="text-danger"><span class="h4 text-danger" id="precoAntigo">R$00,00</span></S><span style="font-size: 6pt;"> / VALOR INTEGRAL</span ></span><br>
+            <span class="text-white">POR: <span class="h1 text-danger" style="font-size: 38pt" id="precoPromocao">R$00,00</span><span style="font-size: 6pt;">/ VALOR PROMOCIONAL</span ></span><br>
+            <span class="text text-danger text-justify">50% de desconto nos 5 primeiros meses. Após o período promocional o valor da mensalidade passa a ser integral.</span>
+          </div>
         </div>
+
+
         <div class="col-8">
           <div class="container-fluid w-100 mt-5">
             <h1 class="font-weight-bold text-warning text-center" style="font-size: 46pt">Calcule seu orçamento</h1>
@@ -32,112 +98,182 @@
             <hr class="bg-danger">
             <h2 class="text-danger text-center font-weight-bold m-0 p-0">PROTEJA OS ACESSOS</h2>
             <hr class="bg-danger">
+
             <div class="row px-3 justify-content-center">
               <span class="text-white text-center mb-3">Por favor, informe os acessos (portas, janelas e ambientes internos) que os bandidos podem usar para invadir o seu imóvel.</span>
-             
-              <div class="col-sm-3 mx-2 " style="height: 150px">
-                <div class="container-fluid w-100 mt-1">
-                  <img src="img/door-m.png" class="d-block mx-auto"> 
-                  <h6 class="text-warning text-center m-0 p-0" style="font-size: 13pt">PORTAS</h6>
-                  <h6 class="text-white text-center m-0 p-0" style="font-size: 9pt">Sensores de abertura</h6>
-                  <div class="d-flex justify-content-center align-content-center mt-2">
-                    <input type="text" class="form-control text-center d-block mr-1" id="numPortas" name="numPortas" style="width: 70px; height: 52px;" readonly value="5">
-                    <span class="d-flex justify-content-center align-items-center flex-column">
-                      <button type="button" class="increase"><span style="vertical-align: super">+</span></button>
-                      <button type="button" class="increase"><span style="vertical-align: super">-</span></button>
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <div class="row px-3 justify-content-center m-0 p-0 w-100 mb-4" id="empresarial" style="display: unset;">
+                <div class="container d-flex justify-content-center">
 
-              <div class="col-sm-3 mx-2 " style="height: 150px">
-                <div class="container-fluid w-100 mt-1">
-                  <img src="img/janelas-m.png" class="d-block mx-auto"> 
-                  <h6 class="text-warning text-center m-0 p-0" style="font-size: 13pt">JANELAS</h6>
-                  <h6 class="text-white text-center m-0 p-0" style="font-size: 9pt">Sensores de abertura</h6>
-                  <div class="d-flex justify-content-center align-content-center mt-2">
-                    <input type="text" class="form-control text-center d-block mr-1" id="numPortas" name="numPortas" style="width: 70px; height: 52px;" readonly value="2">
-                    <span class="d-flex justify-content-center align-items-center flex-column">
-                      <button type="button" class="increase"><span style="vertical-align: super">+</span></button>
-                      <button type="button" class="increase"><span style="vertical-align: super">-</span></button>
-                    </span>
+                  <div class="col-2 align-self-center p-0">
+                    <h6 class="text-warning text-right m-0 p-0" style="font-size: 9pt; line-height: 10px;">PORTAS DE ENROLAR OU BASCULANTE</h6>
+                    <h6 class="text-white text-right m-0 p-0" style="font-size: 9pt">Sensores de abertura</h6>
                   </div>
-                </div>
-              </div>
 
-                <div class="col-sm-3 mx-2 " style="height: 150px">
-                  <div class="container-fluid w-100 mt-1">
-                    <img src="img/ambientes-m.png" class="d-block mx-auto"> 
-                    <h6 class="text-warning text-center m-0 p-0" style="font-size: 13pt">AMBIENTES</h6>
-                    <h6 class="text-white text-center m-0 p-0" style="font-size: 9pt">Sensores de presença</h6>
-                    <div class="d-flex justify-content-center align-content-center mt-2">
-                      <input type="text" class="form-control text-center d-block mr-1" id="numPortas" name="numPortas" style="width: 70px; height: 52px;" readonly value="3">
+                  <div class="col-1 align-self-center d-flex justify-content-center p-0">
+                    <img src="img/roll-up-door-m.png" class="align-self-center"> 
+                  </div>
+
+                  <div class="col-2 align-self-center justify-content-start p-0">
+                    <div class="d-flex" data-id="basculantes">
+                      <input type="text" class="form-control text-center d-block mr-1" id="numQuantidade" name="numQuantidade" style="width: 70px; height: 52px;" readonly value="0">
                       <span class="d-flex justify-content-center align-items-center flex-column">
-                        <button type="button" class="increase"><span style="vertical-align: super">+</span></button>
-                        <button type="button" class="increase"><span style="vertical-align: super">-</span></button>
+                        <button type="button" class="increase add"><span style="vertical-align: super">+</span></button>
+                        <button type="button" class="increase del"><span style="vertical-align: super">-</span></button>
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              
+              <div class="row px-3 justify-content-center m-0 p-0 w-100" id="residencial">
+
+                <div class="col-sm-3 mx-2 m-0 p-0" style="height: 150px">
+                  <div class="container-fluid w-100 mt-1 m-0 p-0">
+                    <img src="img/door-m.png" class="d-block mx-auto"> 
+                    <h6 class="text-warning text-center m-0 p-0" style="font-size: 13pt">PORTAS</h6>
+                    <h6 class="text-white text-center m-0 p-0" style="font-size: 9pt">Sensores de abertura</h6>
+                    <div class="d-flex justify-content-center align-content-center mt-2" data-id="portas">
+                      <input type="text" class="form-control text-center d-block mr-1" id="numQuantidade" name="numQuantidade" style="width: 70px; height: 52px;" readonly value="0">
+                      <span class="d-flex justify-content-center align-items-center flex-column">
+                        <button type="button" class="increase add"><span style="vertical-align: super">+</span></button>
+                        <button type="button" class="increase del"><span style="vertical-align: super">-</span></button>
                       </span>
                     </div>
                   </div>
                 </div>
-            </div>
+
+                <div class="col-sm-3 mx-2 m-0 p-0" style="height: 150px">
+                  <div class="container-fluid w-100 mt-1 m-0 p-0">
+                    <img src="img/janelas-m.png" class="d-block mx-auto"> 
+                    <h6 class="text-warning text-center m-0 p-0" style="font-size: 13pt">JANELAS</h6>
+                    <h6 class="text-white text-center m-0 p-0" style="font-size: 9pt">Sensores de abertura</h6>
+                    <div class="d-flex justify-content-center align-content-center mt-2" data-id="janelas">
+                      <input type="text" class="form-control text-center d-block mr-1" id="numQuantidade" name="numQuantidade" style="width: 70px; height: 52px;" readonly value="0">
+                      <span class="d-flex justify-content-center align-items-center flex-column">
+                        <button type="button" class="increase add"><span style="vertical-align: super">+</span></button>
+                        <button type="button" class="increase del"><span style="vertical-align: super">-</span></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-3 mx-2 m-0 p-0" style="height: 150px">
+                  <div class="container-fluid w-100 mt-1 m-0 p-0">
+                    <img src="img/ambientes-m.png" class="d-block mx-auto"> 
+                    <h6 class="text-warning text-center m-0 p-0" style="font-size: 13pt">AMBIENTES</h6>
+                    <h6 class="text-white text-center m-0 p-0" style="font-size: 9pt">Sensores de presença</h6>
+                    <div class="d-flex justify-content-center align-content-center mt-2" data-id="ambientes">
+                      <input type="text" class="form-control text-center d-block mr-1" id="numQuantidade" name="numQuantidade" style="width: 70px; height: 52px;" readonly value="0">
+                      <span class="d-flex justify-content-center align-items-center flex-column">
+                        <button type="button" class="increase add"><span style="vertical-align: super">+</span></button>
+                        <button type="button" class="increase del"><span style="vertical-align: super">-</span></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </div> <!-- / ROW RESIDENCIAL -->
+            </div> <!-- / ROW PROTEJA OS ACESSOS -->
+
             <hr class="bg-danger">
             <h2 class="text-danger text-center font-weight-bold m-0 p-0">VEJA O QUE ESTÁ ACONTECENDO</h2>
             <hr class="bg-danger">
+
             <div class="row px-3 justify-content-center">
               <span class="text-white text-center mb-3">Adicione câmeras nos ambientes para ver o que está acontecendo a qualquer momento e para gravar o que for detectado (invasor). Importante! Câmera somente de uso em ambientes internos.</span>
               <div class="container d-flex justify-content-center">
+
                 <div class="col-2 align-self-center p-0 pr-2">
                     <h6 class="text-warning text-right m-0 p-0" style="font-size: 13pt; line-height: 13px;">AMBIENTES</h6>
                     <h6 class="text-white text-right m-0 p-0" style="font-size: 9pt">Câmeras Internas</h6>
                 </div>
+
                 <div class="col-1 align-self-center p-0">
                     <img src="img/camera-m.png" class="align-self-center"> 
                 </div>
+
                 <div class="col-2 align-self-center justify-content-start p-0">
-                  <div class="d-flex ">
-                    <input type="text" class="form-control text-center d-block mr-1" id="numPortas" name="numPortas" style="width: 70px; height: 52px;" readonly value="3">
+                  <div class="d-flex" data-id="cameras">
+                    <input type="text" class="form-control text-center d-block mr-1" id="numQuantidade" name="numQuantidade" style="width: 70px; height: 52px;" readonly value="0">
                     <span class="d-flex justify-content-center align-items-center flex-column">
-                      <button type="button" class="increase"><span style="vertical-align: super">+</span></button>
-                      <button type="button" class="increase"><span style="vertical-align: super">-</span></button>
+                      <button type="button" class="increase add"><span style="vertical-align: super">+</span></button>
+                      <button type="button" class="increase del"><span style="vertical-align: super">-</span></button>
                     </span>
                   </div>
                 </div>
+
               </div>
-            </div>
+            </div> <!-- / ROW VEJA O QUE ESTÁ ACONTECENDO -->
 
             <hr class="bg-danger">
             <h2 class="text-danger text-center font-weight-bold m-0 p-0">PEÇA AJUDA E FACILITE A ATIVAÇÃO</h2>
             <hr class="bg-danger">
+
             <div class="row px-3 justify-content-center">
               <span class="text-white text-center mb-3">O alarme monitorado também pode ser usado para pedir ajuda. Adicione controles remotos para as pessoas pedirem ajuda e para facilitar a ativação e desativação.</span>
               <div class="container d-flex justify-content-center">
+
                 <div class="col-2 align-self-center p-0 pr-2">
                     <h6 class="text-warning text-right m-0 p-0" style="font-size: 13pt; line-height: 13px;">PESSOAS</h6>
                     <h6 class="text-white text-right m-0 p-0" style="font-size: 9pt">Controles Remotos</h6>
                 </div>
+
                 <div class="col-1 align-self-center p-0">
                     <img src="img/controle-m.png" class="align-self-center"> 
                 </div>
+
                 <div class="col-2 align-self-center justify-content-start p-0">
-                  <div class="d-flex ">
-                    <input type="text" class="form-control text-center d-block mr-1" id="numPortas" name="numPortas" style="width: 70px; height: 52px;" readonly value="3">
+                  <div class="d-flex " data-id="controles">
+                    <input type="text" class="form-control text-center d-block mr-1" id="numQuantidade" name="numQuantidade" style="width: 70px; height: 52px;" readonly value="0">
                     <span class="d-flex justify-content-center align-items-center flex-column">
-                      <button type="button" class="increase"><span style="vertical-align: super">+</span></button>
-                      <button type="button" class="increase"><span style="vertical-align: super">-</span></button>
+                      <button type="button" class="increase add"><span style="vertical-align: super">+</span></button>
+                      <button type="button" class="increase del"><span style="vertical-align: super">-</span></button>
                     </span>
                   </div>
                 </div>
+
               </div>
-            </div>
+            </div> <!-- / PEÇA AJUDA E FACILITE A ATIVAÇÃO-->
 
 
             <hr class="bg-danger">
             <h2 class="text-danger text-center font-weight-bold m-0 p-0">CONFIRA O QUE ESTÁ INCLUSO</h2>
             <hr class="bg-danger">
 
-          </div>
-        <span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br><span style="color: #642222;">a</span><br>
-        
+            <div class="row container-fluid w-100 mx-auto">
+              <div class="col-md-7">
+                <h1 class="text-warning text-center" style="font-size: 14pt;">EQUIPAMENTOS SEM FIO</h1>
+                <ul class="text-center m-0 p-0" style="background-color: rgba(0,0,0,0); list-style-type: none;">
+                  <li>1 Painel PM360 com comunicador via internet</li>
+                  <li>1 Sirene interna com flash</li>
+                  <li>1 Sensor de abertura para portas</li>
+                  <li>1 Sensor de abertura de porta de enrolar ou basculante</li>
+                  <li>1 Sensor de abertura para janelas</li>
+                  <li>1 Sensor de presença</li>
+                  <li>1 Câmera interna com visão noturna</li>
+                  <li>1 Controle Remoto</li>
+                </ul>
+              </div>
+
+              <div class="col-md-5">
+                <h1 class="text-warning text-center" style="font-size: 14pt;">SERVIÇOS</h1>
+                <ul class="text-center m-0 p-0" style="background-color: rgba(0,0,0,0); list-style-type: none;">
+                  <li>ADT Monitoramento</li>
+                  <li>ADT Manutenção alarme e câmera</li>
+                  <li>ADT Comunicação segura TCP/IP</li>
+                  <li>ADT Relatório</li>
+                  <li>Aplicativo para acessar o alarme</li>
+                </ul>
+              </div>
+
+              <button type="button" class="btn btn-warning btn-block mt-4 shadow border border-secondary text-white font-weight-bold rounded-lg" style="height: 55px">EU QUERO CONTRATAR ESSE PACOTE ></button>
+              <button type="button" class="btn btn-dark btn-block shadow border border-secondary text-white font-weight-bold rounded-lg" style="height: 55px">RECEBER ORÇAMENTO POR E-MAIL ></button>
+              <small class="text-secondary text-center my-2" style="font-size: 8pt;">Promoção válida até 31/08/2019 e para pagamentos até a data do vencimento com cartão de crédito. Após o período promocional o valor da mensalidade passa a ser integral. Contrato em comodato com fidelidade de 36 meses e sujeito a análise de crédito. Você está em ambiente seguro e clicando você aceita a nossa política de privacidade e nossas cláusulas contratuais</small>
+            </div> <!-- / CONFIRA O QUE ESTÁ INCLUSO -->
+
+          </div> <!-- / CONTAINER -->
+                
         </div> <!-- FIM COL 8 -->
       </div>
     </div>
