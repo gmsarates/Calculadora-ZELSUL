@@ -4,6 +4,7 @@ $email = $_POST['email'];
 $telefone = $_POST['telefone'];
 $imovel = $_POST['imovel'];
 $cidade = $_POST['cidade'];
+$cep = $_POST['cep'];
 
 
 $arquivo = 'step2.html'; 
@@ -14,6 +15,7 @@ $html = str_replace('id="hidEmail"', 'id="hidEmail" value="' . $email . '"', $ht
 $html = str_replace('id="hidTelefone"', 'id="hidTelefone" value="' . $telefone . '"', $html);
 $html = str_replace('id="hidImovel"', 'id="hidImovel" value="' . $imovel . '"', $html);
 $html = str_replace('id="hidCidade"', 'id="hidCidade" value="' . $cidade . '"', $html);
+$html = str_replace('id="hidCEP"', 'id="hidCEP" value="' . $cep . '"', $html);
 
 
 

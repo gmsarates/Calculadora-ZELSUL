@@ -28,6 +28,15 @@
           $("#conteudo").removeClass("col-8");
           $("#conteudo").addClass("col-12");
 
+          $("#listEquipamentos").css("font-size", "8pt");
+          $("#resumo").removeClass("h4");
+          $("#resumo").addClass("h6");
+          var hr = $("hr");
+          hr[0].classList.add("m-1");
+          hr[1].classList.add("m-1");
+          $("#contratar").css("font-size", "10pt");
+          $("#contratar").css("height", "40px");
+
           if (parseInt(wLargura) < 650) {
             var divs = $(".mobChange").find("div");
             for (var i=0; i < divs.length; i=i+4 ) {
@@ -51,31 +60,39 @@
             var pPromo = $("#precoPromocao")[0];
             //VALORES
             var preco;
+            var item;
+            var servicos;
             switch(target.data('id')) {
               case 'basculantes':
                 preco = 10000;
+                item = "Sensor de abertura de porta de enrolar ou basculante";
                 break;
               case 'portas':
                 preco = 5050;
+                item = "Sensor de abertura para portas";
                 break;
               case 'janelas':
                 preco = 5000;
+                item = "Sensor de abertura para janelas";
                 break;
               case 'ambientes':
                 preco = 5000;
+                item = "Sensor de presença";
                 break;
               case 'cameras':
                 preco = 10000;
+                item = "Câmera interna com visão noturna";
                 break;
               case 'controles':
                 preco = 1050; 
+                item = "Controle Remoto";
                 break;
             }
+            
             
             if ($(this).hasClass("add")) {
               input.value = parseInt(input.value) + 1;
               valor = valor + preco;
-
 
             } else {
               if (parseInt(input.value) > 0) {
@@ -83,8 +100,24 @@
                 valor = valor - preco;
               }
             }
-            pAntigo.innerText = "R$" + formatReal(valor);
-            pPromo.innerText = "R$" + formatReal(valor/2);
+
+            if (input.value > 0) {
+
+            }
+
+
+
+            $('#listEquipamentos li').each(function(i) {
+              var tmp = $(this).text();
+              if (tmp.includes(item)) {
+                $(this).remove();
+              }
+            });
+
+            if (input.value > 0) 
+              $("#listEquipamentos").append('<li>' + input.value + ' ' + item + '</li>');  
+            // pAntigo.innerText = "R$" + formatReal(valor);
+            // pPromo.innerText = "R$" + formatReal(valor/2);
           }
         });
       
@@ -106,23 +139,49 @@
     <input type="text" hidden id="hidEmail">
     <input type="text" hidden id="hidTelefone">
     <input type="text" hidden id="hidCidade">
+    <input type="text" hidden id="hidCEP">
     <input type="text" hidden id="hidImovel">
     <div class="container-fluid h-100">
       <div class="row text-white d-flex">
 
-        <div class="col-4 bg-dark align-self-stretch" id="header">
-          <div class="text-danger sticky-top" style="margin: 0 15px;">
-            <img src="img/better_logo.png" width="100px" class="mt-2" style="margin-bottom: 50%;">
-            <h1 class="text-warning font-weight-bold">Olá %nome%, </h1>
-            <h5 class="m-0">o valor mensal do seu pacote será:</h5>
+        <div class="col-5 bg-dark align-self-stretch" id="header">
+          <div class="text-danger sticky-top">
+            <img src="img/better_logo.png" width="100px" class="mt-2">
+            <h1 class="text-warning text-center font-weight-bold">Olá %nome%, </h1>
+            <!-- <h5 class="m-0">o valor mensal do seu pacote será:</h5>
             <span class="text-white">DE: <S class="text-danger"><span class="h4 text-danger" id="precoAntigo">R$00,00</span></S><span style="font-size: 6pt;"> / VALOR INTEGRAL</span ></span><br>
             <span class="text-white">POR: <span class="h1 text-danger" style="font-size: 38pt" id="precoPromocao">R$00,00</span><span style="font-size: 6pt;">/ VALOR PROMOCIONAL</span ></span><br>
-            <span class="text text-danger text-justify">50% de desconto nos 5 primeiros meses. Após o período promocional o valor da mensalidade passa a ser integral.</span>
+            <span class="text text-danger text-justify">50% de desconto nos 5 primeiros meses. Após o período promocional o valor da mensalidade passa a ser integral.</span> -->
+
+            <hr class="bg-danger">
+            <h4 id="resumo" class="h4 text-danger text-center font-weight-bold m-0 p-0">RESUMO DO PEDIDO</h4>
+            <hr class="bg-danger">
+
+            <div class="row container-fluid w-100 mx-auto">
+              <div class="col">
+                <h1 class="text-warning text-center" style="font-size: 14pt;">LISTA DE EQUIPAMENTOS</h1>
+                <ul id="listEquipamentos" class="text-center m-0 p-0" style="font-size: 12pt; background-color: rgba(0,0,0,0); list-style-type: none;">
+                  
+                </ul>
+              </div>
+              
+
+              <!-- <div class="col-md-6">
+                <h1 class="text-warning text-center" style="font-size: 14pt;">SERVIÇOS</h1>
+                <ul id="listServicos" class="text-center m-0 p-0" style="font-size: 9pt; background-color: rgba(0,0,0,0); list-style-type: none;">
+                  
+                </ul>
+              </div> -->
+              
+              <button id="contratar" type="button" class="btn btn-warning btn-block mt-2 shadow border border-secondary text-white font-weight-bold rounded-lg" style="height: 55px">EU QUERO CONTRATAR ESSE PACOTE ></button>
+              <!-- <button type="button" class="btn btn-dark btn-block shadow border border-secondary text-white font-weight-bold rounded-lg" style="height: 55px">RECEBER ORÇAMENTO POR E-MAIL ></button> -->
+              <!-- <small class="text-secondary text-center my-2" style="font-size: 8pt;">Promoção válida até 31/08/2019 e para pagamentos até a data do vencimento com cartão de crédito. Após o período promocional o valor da mensalidade passa a ser integral. Contrato em comodato com fidelidade de 36 meses e sujeito a análise de crédito. Você está em ambiente seguro e clicando você aceita a nossa política de privacidade e nossas cláusulas contratuais</small> -->
+            </div> <!-- / CONFIRA O QUE ESTÁ INCLUSO -->
           </div>
         </div>
 
 
-        <div class="col-8" id="conteudo">
+        <div class="col-7" id="conteudo">
           <div class="container-fluid w-100 mt-5">
             <h1 class="font-weight-bold text-warning text-center" style="font-size: 46pt">Calcule seu orçamento</h1>
             <h2 class="text-white text-center"><span class="font-weight-bold">Passo 2 de 3 </span> | Dados do imóvel</h2>
@@ -215,7 +274,7 @@
               <span class="text-white text-center mb-3">Adicione câmeras nos ambientes para ver o que está acontecendo a qualquer momento e para gravar o que for detectado (invasor). Importante! Câmera somente de uso em ambientes internos.</span>
               <div class="container d-flex justify-content-center mobChange">
 
-                <div class="col-2 align-self-center p-0 pr-2">
+                <div class="col-2 align-self-center p-0">
                     <h6 class="text-warning text-right m-0 p-0" style="font-size: 13pt; line-height: 13px;">AMBIENTES</h6>
                     <h6 class="text-white text-right m-0 p-0" style="font-size: 9pt">Câmeras Internas</h6>
                 </div>
@@ -241,11 +300,11 @@
             <h2 class="text-danger text-center font-weight-bold m-0 p-0">PEÇA AJUDA E FACILITE A ATIVAÇÃO</h2>
             <hr class="bg-danger">
 
-            <div class="row px-3 justify-content-center">
+            <div class="row px-3 justify-content-center mb-3">
               <span class="text-white text-center mb-3">O alarme monitorado também pode ser usado para pedir ajuda. Adicione controles remotos para as pessoas pedirem ajuda e para facilitar a ativação e desativação.</span>
               <div class="container d-flex justify-content-center mobChange">
 
-                <div class="col-2 align-self-center p-0 pr-2">
+                <div class="col-2 align-self-center p-0">
                     <h6 class="text-warning text-right m-0 p-0" style="font-size: 13pt; line-height: 13px;">PESSOAS</h6>
                     <h6 class="text-white text-right m-0 p-0" style="font-size: 9pt">Controles Remotos</h6>
                 </div>
@@ -268,40 +327,7 @@
             </div> <!-- / PEÇA AJUDA E FACILITE A ATIVAÇÃO-->
 
 
-            <hr class="bg-danger">
-            <h2 class="text-danger text-center font-weight-bold m-0 p-0">CONFIRA O QUE ESTÁ INCLUSO</h2>
-            <hr class="bg-danger">
-
-            <div class="row container-fluid w-100 mx-auto">
-              <div class="col-md-7">
-                <h1 class="text-warning text-center" style="font-size: 14pt;">EQUIPAMENTOS SEM FIO</h1>
-                <ul class="text-center m-0 p-0" style="background-color: rgba(0,0,0,0); list-style-type: none;">
-                  <li>1 Painel PM360 com comunicador via internet</li>
-                  <li>1 Sirene interna com flash</li>
-                  <li>1 Sensor de abertura para portas</li>
-                  <li>1 Sensor de abertura de porta de enrolar ou basculante</li>
-                  <li>1 Sensor de abertura para janelas</li>
-                  <li>1 Sensor de presença</li>
-                  <li>1 Câmera interna com visão noturna</li>
-                  <li>1 Controle Remoto</li>
-                </ul>
-              </div>
-
-              <div class="col-md-5">
-                <h1 class="text-warning text-center" style="font-size: 14pt;">SERVIÇOS</h1>
-                <ul class="text-center m-0 p-0" style="background-color: rgba(0,0,0,0); list-style-type: none;">
-                  <li>ADT Monitoramento</li>
-                  <li>ADT Manutenção alarme e câmera</li>
-                  <li>ADT Comunicação segura TCP/IP</li>
-                  <li>ADT Relatório</li>
-                  <li>Aplicativo para acessar o alarme</li>
-                </ul>
-              </div>
-
-              <button type="button" class="btn btn-warning btn-block mt-4 shadow border border-secondary text-white font-weight-bold rounded-lg" style="height: 55px">EU QUERO CONTRATAR ESSE PACOTE ></button>
-              <button type="button" class="btn btn-dark btn-block shadow border border-secondary text-white font-weight-bold rounded-lg" style="height: 55px">RECEBER ORÇAMENTO POR E-MAIL ></button>
-              <small class="text-secondary text-center my-2" style="font-size: 8pt;">Promoção válida até 31/08/2019 e para pagamentos até a data do vencimento com cartão de crédito. Após o período promocional o valor da mensalidade passa a ser integral. Contrato em comodato com fidelidade de 36 meses e sujeito a análise de crédito. Você está em ambiente seguro e clicando você aceita a nossa política de privacidade e nossas cláusulas contratuais</small>
-            </div> <!-- / CONFIRA O QUE ESTÁ INCLUSO -->
+            
 
           </div> <!-- / CONTAINER -->
                 
@@ -310,4 +336,5 @@
     </div>
   </body>
 </html>  
+
 
