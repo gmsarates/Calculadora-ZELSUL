@@ -1,7 +1,7 @@
 <?php 
 $nome = $_POST['nome'];
 $email = $_POST['email'];
-$telefone = $_POST['email'];
+$telefone = $_POST['telefone'];
 $imovel = $_POST['imovel'];
 $cidade = $_POST['cidade'];
 
@@ -13,7 +13,7 @@ $html = str_replace('id="hidName"', 'id="hidName" value="' . $nome . '"', $html)
 $html = str_replace('id="hidEmail"', 'id="hidEmail" value="' . $email . '"', $html);
 $html = str_replace('id="hidTelefone"', 'id="hidTelefone" value="' . $telefone . '"', $html);
 $html = str_replace('id="hidImovel"', 'id="hidImovel" value="' . $imovel . '"', $html);
-$html = str_replace('id="hidCidade"', 'id="hidCidade" value="' . $imovel . '"', $html);
+$html = str_replace('id="hidCidade"', 'id="hidCidade" value="' . $cidade . '"', $html);
 
 
 

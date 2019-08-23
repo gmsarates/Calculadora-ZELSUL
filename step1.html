@@ -2,17 +2,28 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="custom.css">
     <title>Calculadora</title>  
+    <script>
+      $( document ).ready(function() {
+        var wLargura = $(window).width();   // comprimento do browser
+        if (parseInt(wLargura) < 900) {
+          $('body').css("min-height", "0");
+          $('.content').removeClass('w-50');
+          $('.content').addClass('w-75 mb-4');
+        }
+
+      });
+    </script>
   </head>
-  <body class="h-100 mh-100 w-100 mw-100" style="background-color: #642222;">
+  <body class="h-100 mh-100 w-100 mw-100" style="background-color: #642222; min-height: 1000px;">
   <div class="row d-flex justify-content-center mr-0">
     <!-- HEADER -->
     <div class="content w-75 text-center mt-3 text-warning">
@@ -25,7 +36,7 @@
     <div class="content w-50">
       <!-- FORMULÁRIO -->
       <div class="rounded border border-danger p-4 mt-3 text-white">
-      <form action="/step2.php" method="POST">
+      <form action="step2.php" method="POST">
         <div class="form-group">
           <label for="email">Selecione o tipo de imóvel</label>
           <select class="form-control" id="imovel" name="imovel" >
@@ -39,7 +50,7 @@
           <select class="form-control" id="cidade" name="cidade" >
             <option value="0" disabled selected>Selecione</option>
             <option disabled class="font-weight-bold">RS</option>
-            <option>Porto Alegre</option>
+            <option value='Porto Alegre'>Porto Alegre</option>
           </select>
         </div>
         <div class="form-group">
@@ -52,7 +63,7 @@
         </div>
         <div class="form-group">
           <label for="telefone">DDD + Telefone</label>
-          <input type="text" class="form-control" placeholder="051 9 99999999" name="telefone" id="telefone">
+          <input type="phone" class="form-control" placeholder="051 9 99999999" name="telefone" id="telefone">
         </div>
         <button type="submit" class="btn btn-danger">Começar</button>
       </form>
