@@ -1,5 +1,5 @@
 <?php 
-$nome = $_POST['nome'];
+$tmpNome = $_POST['nome'];
 $email = $_POST['email'];
 $telefone = $_POST['telefone'];
 $imovel = $_POST['imovel'];
@@ -7,9 +7,15 @@ $cidade = $_POST['cidade'];
 $cep = $_POST['cep'];
 
 
+$limit = 1;
+list($nome, $sobrenome) = explode(" ", $tmpNome, 2);
+
+
 $arquivo = 'step2.html'; 
 $html = file_get_contents( $arquivo );
 $html = str_replace('%nome%', $nome, $html);
+$html = str_replace('%email%', $email, $html);
+$html = str_replace('%telefone%', $telefone, $html);
 $html = str_replace('id="hidName"', 'id="hidName" value="' . $nome . '"', $html);
 $html = str_replace('id="hidEmail"', 'id="hidEmail" value="' . $email . '"', $html);
 $html = str_replace('id="hidTelefone"', 'id="hidTelefone" value="' . $telefone . '"', $html);
